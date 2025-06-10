@@ -32,16 +32,13 @@ pyaudio==0.2.11
 # Data processing and caching
 redis==5.0.1
 python-jose[cryptography]==3.3.0
-python-multipart==0.0.6
 
 # Database
-sqlite3
 sqlalchemy==2.0.23
 alembic==1.12.1
 
 # Security and validation
 passlib[bcrypt]==1.7.4
-python-jose[cryptography]==3.3.0
 cryptography==41.0.7
 
 # Performance and monitoring
