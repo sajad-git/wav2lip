@@ -1,0 +1,52 @@
+General MCP Tool Call Format
+All calls use the same structure:
+bashcurl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "TOOL_NAME", "arguments": {...}}, "id": "UNIQUE_ID"}'
+Available Tools & Usage:
+1. Get Current Time
+bashcurl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "get_current_time"}, "id": "2"}'
+
+Purpose: Returns current Iran time in Gregorian, Jalali (Persian), and Hijri calendars
+Arguments: None required
+Returns: Date/time in multiple formats with timezone info
+
+2. Tabib (Medical/Health Tool)
+bashcurl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "tabib", "arguments": {"query": "What are the symptoms of diabetes?"}}, "id": "3"}'
+
+Purpose: Medical information based on the Iranian TV show "Tabib"
+Arguments: query (string) - your medical question
+Example queries: "How to prevent heart disease?", "What causes high blood pressure?"
+
+3. F16 (Entrepreneurship Tool)
+bashcurl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "f16", "arguments": {"query": "How to start a tech startup?"}}, "id": "4"}'
+
+Purpose: Business/entrepreneurship insights from Tabaghe16 YouTube channel
+Arguments: query (string) - your business question
+Example queries: "Investment strategies for startups", "How to scale a business?"
+
+4. Digimaman (Parenting Tool)
+bashcurl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "digimaman", "arguments": {"query": "How to handle toddler tantrums?"}}, "id": "5"}'
+
+Purpose: Parenting advice from Dr. Soraya Alavinezhad
+Arguments: query (string) - your parenting question
+Example queries: "Child development milestones", "How to build child's self-esteem?"
+
+
+(base) root@develop-1:~# curl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/list", "id": "1"}'
+{"jsonrpc":"2.0","result":{"tools":[{"name":"get_current_time","description":"Get current Iran time in Gregorian, Jalali, and Hijri calendars with timezone in                                        formation","inputSchema":{"type":"object","properties":{},"required":[]}},{"name":"tabib","description":"The Tabib Chatbot is designed to provide users with i                                        nformation and insights derived from the Tabib television program, which airs on IRIB TV3. Tabib is a live Iranian talk show focused on health education and d                                        isease prevention, hosted by Peyman Talebi since its debut in December 2016. \nWikipedia\n+1\nWikipedia\n+1\n\nKey Content Areas:\n\nHealth Education: The cha                                        tbot offers explanations of medical topics discussed on the show, helping users understand health conditions and preventive measures.\n\nExpert Advice: By sum                                        marizing conversations with guest doctors, the chatbot provides users with professional medical insights and recommendations.\n\nPublic Health Updates: The ch                                        atbot can relay information on current health issues and public health campaigns featured in the program.\n\nBy interacting with the Tabib Chatbot, users can                                         access a wealth of health-related information presented in an accessible and conversational manner, reflecting the educational mission of the Tabib television                                         program.","inputSchema":{"type":"object","properties":{"query":{"type":"string","description":"The medical question or query"}},"required":["query"]}},{"name                                        ":"f16","description":"The Tabaghe16 Chatbot is designed to provide users with insights and information derived from the Tabaghe16 YouTube channel, which feat                                        ures in-depth conversations with entrepreneurs, investors, and industry leaders. Hosted by Soheil Alavi, the channel offers a rich collection of interviews an                                        d discussions that delve into various aspects of startups, technology, and personal growth.\n\nKey Content Areas:\n\nEntrepreneurial Journeys: The chatbot can                                         share stories and experiences from successful entrepreneurs who have navigated the challenges of building startups, offering lessons learned and strategies e                                        mployed.\nLinkedIn\n\nTechnology and Innovation: Users can explore discussions on emerging technologies, product development, and the impact of innovation on                                         different industries.\n\nPersonal Development: The chatbot provides access to conversations about personal growth, mindset, and the habits that contribute to                                         success in both professional and personal life.\n\nIndustry Insights: Gain perspectives from industry experts on market trends, investment strategies, and the                                         evolving landscape of business and technology.\nLinktree\n\nBy interacting with the Tabaghe16 Chatbot, users can access a wealth of knowledge and experiences                                         shared by notable figures featured on the Tabaghe16 channel, making it a valuable resource for learning and inspiration.","inputSchema":{"type":"object","pro                                        perties":{"query":{"type":"string","description":"The question about F16 aircraft"}},"required":["query"]}},{"name":"digimaman","description":"The Dr. Alavine                                        zhad Parenting Chatbot is designed to provide users with insights and guidance derived from the work of Dr. Soraya Alavinezhad, a child psychologist known for                                         her contributions to child development and parental support. Drawing from her appearances on television, Instagram, and other media platforms, the chatbot of                                        fers accessible advice to parents seeking to understand and support their children's emotional and psychological well-being.\n\nKey Content Areas:\n\nChild De                                        velopment: The chatbot provides information on various stages of child growth, helping parents recognize and support developmental milestones.\n\nParental Gui                                        dance: Users can access strategies and tips for effective parenting, including communication techniques and behavioral management.\nHuberman Lab\n\nEmotional                                         Support: The chatbot offers advice on nurturing children's emotional health, addressing common challenges such as anxiety, self-esteem, and social interaction                                        s.\n\nEducational Resources: By summarizing Dr. Alavinezhad's content, the chatbot serves as an educational tool for parents aiming to enhance their parenting                                         skills.\n\nThrough interactive conversations, the Dr. Alavinezhad Parenting Chatbot empowers parents with knowledge and tools to foster a supportive and unde                                        rstanding environment for their children's growth.","inputSchema":{"type":"object","properties":{"query":{"type":"string","description":"The digital content q                                        uery"}},"required":["query"]}}]},"error":null,"id":"1"}(base) root@develop-1:~# ^C
+(base) root@develop-1:~# j^C
+(base) root@develop-1:~# curl --location 'http://5.9.72.171:8007/mcp' \
+--header 'Content-Type: application/json' \
+--data '{"jsonrpc": "2.0", "method": "tools/call", "params": {"name": "tabib", "arguments": {"query": "What are the symptoms of diabetes?"}}, "id": "3"}'
+{"jsonrpc":"2.0","result":{"content":[{"type":"text","text":"{\n  \"response\": \"برای درمان کمر درد، می‌توانید به موارد زیر توجه کنید:\\n\\n1. **استراحت**: در                                         شروع درمان، استراحت بسیار مهم است. اگر درد شروع شد، باید استراحت کنید و این استراحت ممکن است بسته به نوع درد تا دو یا سه روز ادامه یابد.\\n\\n2. **فعالیت‌های                                         ورزشی مناسب**: برخی حرکات ورزشی می‌توانند به بهبود کمر درد کمک کنند. به عنوان مثال، حرکات کششی مانند \\\"کتن کمل\\\" و سجده می‌توانند مفید باشند. این حرکات به ک                                        اهش فشار روی کمر کمک می‌کنند.\\n\\n3. **تغذیه مناسب**: مصرف مایعات زیاد و تغذیه مناسب می‌تواند به پیشگیری از کمر درد کمک کند.\\n\\n4. **اجتناب از حرکات نادرست**                                        : از بلند کردن اجسام سنگین و حرکات ناگهانی که ممکن است به کمر آسیب برسانند، خودداری کنید. همچنین، در هنگام انجام کارهایی که نیاز به خم شدن دارند، بیش از چهار                                         تا پنج دقیقه در حالت خمیده نمانید.\\n\\n5. **مشاوره پزشکی**: در صورت ادامه درد، مشاوره با پزشک و انجام اقدامات تشخیصی مانند تصویربرداری و آزمایشات خون ممکن اس                                        ت لازم باشد.\\n\\n6. **درمان‌های تخصصی**: در برخی موارد، درمان‌های تخصصی مانند فیزیوتراپی یا مشاوره با متخصص طب فیزیکی و توانبخشی ممکن است مفید باشد.\\n\\nتوجه                                         داشته باشید که نوع و شدت کمر درد می‌تواند متفاوت باشد و ممکن است نیاز به درمان‌های خاصی داشته باشد. در صورت تداوم یا شدت یافتن درد، حتماً با یک پزشک مشورت کنید.\                                        ",\n  \"token_usage\": {\n    \"completion_tokens\": 289,\n    \"prompt_tokens\": 2471,\n    \"total_tokens\": 2760\n  },\n  \"cost_info\": {\n    \"prompt_co                                        st\": 0.006178,\n    \"completion_cost\": 0.00289,\n    \"total_cost\": 0.009068,\n    \"currency\": \"USD\"\n  },

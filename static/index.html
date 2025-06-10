@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Streaming Service</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/persian.css">
+    <style>
+        body {
+            font-family: 'Vazir', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.5em;
+        }
+        
+        .header p {
+            color: #666;
+            margin: 10px 0 0;
+            font-size: 1.1em;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .control-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .video-panel {
+            background: #000;
+            border-radius: 10px;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .avatar-selector {
+            margin-bottom: 25px;
+        }
+        
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .avatar-item {
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            text-align: center;
+            background: #fff;
+        }
+        
+        .avatar-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+        
+        .avatar-item.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .avatar-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 5px;
+        }
+        
+        .avatar-name {
+            font-size: 0.8em;
+            color: #333;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            direction: rtl;
+            text-align: right;
+        }
+        
+        .text-input:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6fd8;
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .status-connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-processing {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        
+        .video-canvas {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+        }
+        
+        .video-placeholder {
+            color: #666;
+            font-size: 1.2em;
+            text-align: center;
+        }
+        
+        .upload-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            text-align: center;
+            background: #fafafa;
+        }
+        
+        .upload-section:hover {
+            border-color: #667eea;
+        }
+        
+        .performance-metrics {
+            margin-top: 25px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            font-size: 0.9em;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .recording-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            display: none;
+        }
+        
+        .recording-indicator.active {
+            display: block;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>سرویس آواتار هوشمند</h1>
+            <p>تولید ویدیو آواتار با پردازش صوت فارسی و هوش مصنوعی</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="control-panel">
+                <div class="status-indicator" id="connectionStatus">
+                    <div class="status-dot"></div>
+                    <span id="statusText">در حال اتصال...</span>
+                </div>
+                
+                <div class="avatar-selector">
+                    <h3 class="section-title">انتخاب آواتار</h3>
+                    <div class="avatar-grid" id="avatarGrid">
+                        <!-- Avatars will be loaded dynamically -->
+                    </div>
+                    <button class="btn btn-secondary" onclick="loadAvatars()">بارگذاری مجدد آواتارها</button>
+                </div>
+                
+                <div class="input-group">
+                    <label class="input-label" for="textInput">متن ورودی (فارسی):</label>
+                    <textarea 
+                        id="textInput" 
+                        class="text-input" 
+                        rows="4" 
+                        placeholder="متن فارسی خود را اینجا بنویسید..."
+                        dir="rtl"
+                    ></textarea>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" id="processBtn" onclick="processText()">
+                        پردازش متن
+                    </button>
+                    <button class="btn btn-secondary" id="recordBtn" onclick="toggleRecording()">
+                        ضبط صدا
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearResults()">
+                        پاک کردن
+                    </button>
+                </div>
+                
+                <div class="upload-section" onclick="document.getElementById('avatarUpload').click()">
+                    <p>برای بارگذاری آواتار جدید کلیک کنید</p>
+                    <input type="file" id="avatarUpload" style="display: none;" 
+                           accept="image/*,video/*" onchange="uploadAvatar(this.files[0])">
+                </div>
+                
+                <div class="performance-metrics">
+                    <h4>آمار عملکرد</h4>
+                    <div class="metrics-grid">
+                        <div class="metric-item">
+                            <span>وضعیت اتصال:</span>
+                            <span id="connectionMetric">قطع</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>آواتار انتخابی:</span>
+                            <span id="selectedAvatarMetric">هیچ</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>زمان پردازش:</span>
+                            <span id="processingTimeMetric">-</span>
+                        </div>
+                        <div class="metric-item">
+                            <span>کیفیت اتصال:</span>
+                            <span id="connectionQuality">عالی</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="video-panel">
+                <canvas id="videoCanvas" class="video-canvas" style="display: none;"></canvas>
+                <div id="videoPlaceholder" class="video-placeholder">
+                    آواتار خود را انتخاب کرده و متن را وارد کنید
+                </div>
+                <div id="recordingIndicator" class="recording-indicator">در حال ضبط</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Audio recording element -->
+    <audio id="audioPlayer" style="display: none;"></audio>
+    
+    <script src="js/websocket-client.js"></script>
+    <script src="js/audio-recorder.js"></script>
+    <script src="js/video-player.js"></script>
+    <script src="js/avatar-manager.js"></script>
+    <script src="js/persian-support.js"></script>
+    
+    <script>
+        // Global state
+        let selectedAvatarId = null;
+        let isRecording = false;
+        let websocketClient = null;
+        let audioRecorder = null;
+        let videoPlayer = null;
+        let avatarManager = null;
+        
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+        
+        async function initializeApp() {
+            try {
+                // Initialize components
+                websocketClient = new AvatarWebSocketClient();
+                audioRecorder = new AudioRecorder();
+                videoPlayer = new SequentialVideoPlayer('videoCanvas');
+                avatarManager = new AvatarManager();
+                
+                // Setup event listeners
+                setupEventListeners();
+                
+                // Connect to WebSocket
+                await connectWebSocket();
+                
+                // Load available avatars
+                await loadAvatars();
+                
+                console.log('Application initialized successfully');
+            } catch (error) {
+                console.error('Failed to initialize application:', error);
+                updateStatus('خطا در راه‌اندازی سیستم', 'disconnected');
+            }
+        }
+        
+        function setupEventListeners() {
+            // Text input handling
+            document.getElementById('textInput').addEventListener('input', function() {
+                // Auto-resize textarea
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Avatar upload drag & drop
+            const uploadSection = document.querySelector('.upload-section');
+            uploadSection.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#667eea';
+            });
+            
+            uploadSection.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+            });
+            
+            uploadSection.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#ddd';
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    uploadAvatar(files[0]);
+                }
+            });
+        }
+        
+        async function connectWebSocket() {
+            try {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = `${protocol}//${window.location.host}/stream`;
+                
+                const connected = await websocketClient.connect_to_server(wsUrl);
+                
+                if (connected) {
+                    updateStatus('متصل شد', 'connected');
+                    document.getElementById('connectionMetric').textContent = 'متصل';
+                    
+                    // Setup WebSocket event handlers
+                    websocketClient.onVideoChunk = function(chunk) {
+                        videoPlayer.display_video_chunk(chunk);
+                    };
+                    
+                    websocketClient.onAvatarList = function(avatars) {
+                        displayAvatars(avatars);
+                    };
+                    
+                } else {
+                    updateStatus('خطا در اتصال', 'disconnected');
+                }
+            } catch (error) {
+                console.error('WebSocket connection failed:', error);
+                updateStatus('خطا در اتصال', 'disconnected');
+            }
+        }
+        
+        async function loadAvatars() {
+            try {
+                updateStatus('در حال بارگذاری آواتارها...', 'processing');
+                
+                const avatars = await avatarManager.load_available_avatars();
+                displayAvatars(avatars);
+                
+                updateStatus('آواتارها بارگذاری شد', 'connected');
+            } catch (error) {
+                console.error('Failed to load avatars:', error);
+                updateStatus('خطا در بارگذاری آواتارها', 'disconnected');
+            }
+        }
+        
+        function displayAvatars(avatars) {
+            const avatarGrid = document.getElementById('avatarGrid');
+            avatarGrid.innerHTML = '';
+            
+            avatars.forEach(avatar => {
+                const avatarItem = document.createElement('div');
+                avatarItem.className = 'avatar-item';
+                avatarItem.onclick = () => selectAvatar(avatar.avatar_id);
+                
+                avatarItem.innerHTML = `
+                    <img src="/api/avatar/${avatar.avatar_id}/thumbnail" 
+                         alt="${avatar.name}" 
+                         class="avatar-preview"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMzAiIGZpbGw9IiNmMGY0ZmYiLz4KPHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDEyQzE0LjIwOTEgMTIgMTYgMTAuMjA5MSAxNiA4QzE2IDUuNzkwODYgMTQuMjA5MSA0IDEyIDRDOS43OTA4NiA0IDggNS43OTA4NiA4IDhDOCAxMC4yMDkxIDkuNzkwODYgMTIgMTIgMTJaIiBmaWxsPSIjNjY3ZWVhIi8+CjxwYXRoIGQ9Ik0xMiAxNEM5LjMzIDEzLjk5IDcgMTYuMzYgNyAxOS4wOUM3IDE5LjU5IDcuNDEgMjAgNy45MSAyMEgxNi0wOUMxNi41OSAyMCAxNyAxOS41OSAxNyAxOS4wOUMxNyAxNi4zNiAxNC42NyAxMy45OSAxMiAxNFoiIGZpbGw9IiM2NjdlZWEiLz4KPC9zdmc+'" />
+                    <div class="avatar-name">${avatar.name}</div>
+                `;
+                
+                avatarGrid.appendChild(avatarItem);
+            });
+        }
+        
+        async function selectAvatar(avatarId) {
+            try {
+                // Update UI
+                document.querySelectorAll('.avatar-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                event.currentTarget.classList.add('selected');
+                selectedAvatarId = avatarId;
+                
+                // Notify WebSocket client
+                await websocketClient.select_avatar(avatarId);
+                
+                // Update metrics
+                document.getElementById('selectedAvatarMetric').textContent = avatarId;
+                
+                console.log('Avatar selected:', avatarId);
+            } catch (error) {
+                console.error('Failed to select avatar:', error);
+            }
+        }
+        
+        async function processText() {
+            const textInput = document.getElementById('textInput');
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                alert('لطفاً متن را وارد کنید');
+                return;
+            }
+            
+            if (!selectedAvatarId) {
+                alert('لطفاً ابتدا آواتار را انتخاب کنید');
+                return;
+            }
+            
+            try {
+                updateStatus('در حال پردازش...', 'processing');
+                document.getElementById('processBtn').disabled = true;
+                
+                const startTime = Date.now();
+                
+                // Show video canvas and hide placeholder
+                document.getElementById('videoCanvas').style.display = 'block';
+                document.getElementById('videoPlaceholder').style.display = 'none';
+                
+                // Send text for processing
+                await websocketClient.send_text_data(text, {
+                    avatar_id: selectedAvatarId,
+                    language: 'fa',
+                    timestamp: Date.now()
+                });
+                
+                const processingTime = Date.now() - startTime;
+                document.getElementById('processingTimeMetric').textContent = `${processingTime}ms`;
+                
+                updateStatus('پردازش تکمیل شد', 'connected');
+            } catch (error) {
+                console.error('Text processing failed:', error);
+                updateStatus('خطا در پردازش', 'disconnected');
+            } finally {
+                document.getElementById('processBtn').disabled = false;
+            }
+        }
+        
+        async function toggleRecording() {
+            if (!selectedAvatarId) {
+                alert('لطفاً ابتدا آواتار را انتخاب کنید');
+                return;
+            }
+            
+            try {
+                if (!isRecording) {
+                    await audioRecorder.startRecording();
+                    isRecording = true;
+                    
+                    document.getElementById('recordBtn').textContent = 'توقف ضبط';
+                    document.getElementById('recordingIndicator').classList.add('active');
+                    updateStatus('در حال ضبط صدا...', 'processing');
+                    
+                } else {
+                    const audioBlob = await audioRecorder.stopRecording();
+                    isRecording = false;
+                    
+                    document.getElementById('recordBtn').textContent = 'ضبط صدا';
+                    document.getElementById('recordingIndicator').classList.remove('active');
+                    
+                    // Process recorded audio
+                    await processAudio(audioBlob);
+                }
+            } catch (error) {
+                console.error('Recording failed:', error);
+                updateStatus('خطا در ضبط صدا', 'disconnected');
+                isRecording = false;
+                document.getElementById('recordBtn').textContent = 'ضبط صدا';
+                document.getElementById('recordingIndicator').classList.remove('active');
+            }
+        }
+        
+        async function processAudio(audioBlob) {
+            try {
+                updateStatus('در حال پردازش صدا...', 'processing');
+                
+                const startTime = Date.now();
+                
+                // Show video canvas
+                document.getElementById('videoCanvas').style.display = 'block';
+                document.getElementById('videoPlaceholder').style.display = 'none';
+                
+                // Send audio for processing
+                await websocketClient.send_audio_data(audioBlob, {
+                    avatar_id: selectedAvatarId,
+                    language: 'fa',
+                    timestamp: Date.now()
+                });
+                
+                const processingTime = Date.now() - startTime;
+                document.getElementById('processingTimeMetric').textContent = `${processingTime}ms`;
+                
+                updateStatus('پردازش صدا تکمیل شد', 'connected');
+            } catch (error) {
+                console.error('Audio processing failed:', error);
+                updateStatus('خطا در پردازش صدا', 'disconnected');
+            }
+        }
+        
+        async function uploadAvatar(file) {
+            if (!file) return;
+            
+            try {
+                updateStatus('در حال بارگذاری آواتار...', 'processing');
+                
+                const formData = new FormData();
+                formData.append('avatar_file', file);
+                formData.append('avatar_name', file.name.split('.')[0]);
+                formData.append('user_id', 'user_' + Date.now());
+                
+                const response = await fetch('/api/avatar/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.registration_status === 'success') {
+                    updateStatus('آواتار با موفقیت اضافه شد', 'connected');
+                    await loadAvatars(); // Reload avatar list
+                } else {
+                    updateStatus('خطا در بارگذاری آواتار', 'disconnected');
+                    console.error('Avatar upload failed:', result.errors);
+                }
+                
+            } catch (error) {
+                console.error('Avatar upload failed:', error);
+                updateStatus('خطا در بارگذاری آواتار', 'disconnected');
+            }
+        }
+        
+        function clearResults() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('videoCanvas').style.display = 'none';
+            document.getElementById('videoPlaceholder').style.display = 'block';
+            videoPlayer.clear();
+            updateStatus('پاک شد', 'connected');
+        }
+        
+        function updateStatus(message, type) {
+            const statusElement = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('statusText');
+            
+            statusElement.className = `status-indicator status-${type}`;
+            statusText.textContent = message;
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'Enter':
+                        e.preventDefault();
+                        processText();
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        toggleRecording();
+                        break;
+                    case 'l':
+                        e.preventDefault();
+                        clearResults();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

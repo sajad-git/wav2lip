@@ -1,0 +1,552 @@
+/*
+Avatar Upload CSS - Enhanced styling for avatar registration interface
+Persian-supported with modern design elements
+*/
+
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
+}
+
+/* Persian font integration */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+/* Main container enhancements */
+.container {
+    animation: fadeIn 0.6s ease-out;
+    transition: all 0.3s ease;
+}
+
+/* Header enhancements */
+.header {
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+}
+
+.header h1 {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    animation: slideIn 0.8s ease-out 0.2s both;
+}
+
+.header p {
+    animation: slideIn 0.8s ease-out 0.4s both;
+}
+
+/* Upload area enhancements */
+.upload-area {
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+    animation: shimmer 2s infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.upload-area:hover::before {
+    opacity: 1;
+}
+
+.upload-area.file-selected {
+    border-color: #28a745;
+    background: #f0fff0;
+    animation: pulse 0.5s ease-in-out;
+}
+
+.upload-area.uploading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.upload-area.uploading .upload-icon {
+    animation: spin 1s linear infinite;
+}
+
+/* Form enhancements */
+.metadata-form {
+    animation: slideIn 0.6s ease-out 0.3s both;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-group input:focus + label,
+.form-group textarea:focus + label {
+    color: #007bff;
+}
+
+.form-group input[required]:valid,
+.form-group textarea[required]:valid {
+    border-color: #28a745;
+}
+
+.form-group input[required]:invalid:not(:placeholder-shown),
+.form-group textarea[required]:invalid:not(:placeholder-shown) {
+    border-color: #dc3545;
+}
+
+/* Validation indicators */
+.form-group input[required]:valid::after {
+    content: '✓';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Preview section enhancements */
+.preview-container {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.preview-image {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+}
+
+.preview-image:hover {
+    transform: scale(1.02);
+}
+
+/* Face detection overlay */
+.face-box {
+    animation: fadeIn 0.5s ease-out;
+    transition: all 0.3s ease;
+}
+
+.face-box:hover {
+    background: rgba(40, 167, 69, 0.3);
+    transform: scale(1.02);
+}
+
+/* Quality indicator animations */
+.quality-indicator {
+    transition: all 0.3s ease;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.quality-excellent {
+    animation: fadeIn 0.5s ease-out, pulse 0.8s ease-in-out;
+}
+
+.quality-good {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.quality-poor {
+    animation: fadeIn 0.5s ease-out, pulse 1s ease-in-out 2;
+}
+
+/* Progress bar enhancements */
+.progress-bar {
+    background: linear-gradient(90deg, #e9ecef 0%, #dee2e6 100%);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #007bff 0%, #0056b3 50%, #007bff 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    animation: shimmer 1.5s linear infinite;
+}
+
+/* Button enhancements */
+.upload-button {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.upload-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.upload-button:hover::before {
+    left: 100%;
+}
+
+.upload-button:active {
+    transform: translateY(0);
+    box-shadow: 0 5px 10px rgba(40, 167, 69, 0.4);
+}
+
+/* Avatar card enhancements */
+.avatar-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.avatar-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(33, 150, 243, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-card:hover::before {
+    opacity: 1;
+}
+
+.avatar-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* Avatar thumbnail enhancements */
+.avatar-thumbnail {
+    transition: all 0.3s ease;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.avatar-card:hover .avatar-thumbnail {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* Loading states */
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 15px;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+    
+    .upload-area {
+        padding: 30px 20px;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+    }
+    
+    .preview-image {
+        max-width: 250px;
+        max-height: 250px;
+    }
+    
+    .avatar-list {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .avatar-card {
+        padding: 15px;
+    }
+    
+    .avatar-thumbnail {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .header p {
+        font-size: 1rem;
+    }
+    
+    .upload-text {
+        font-size: 1rem;
+    }
+    
+    .upload-subtext {
+        font-size: 0.8rem;
+    }
+}
+
+/* Accessibility enhancements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .upload-area {
+        border-width: 4px;
+        border-color: #000;
+    }
+    
+    .upload-button {
+        border: 2px solid #000;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        border-width: 3px;
+        border-color: #000;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: rgba(45, 45, 45, 0.95);
+        color: #fff;
+    }
+    
+    .upload-area {
+        background: #333;
+        border-color: #555;
+        color: #fff;
+    }
+    
+    .metadata-form {
+        background: #333;
+        border-color: #555;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        background: #444;
+        border-color: #555;
+        color: #fff;
+    }
+    
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+        color: #ccc;
+    }
+    
+    .avatar-card {
+        background: #333;
+        color: #fff;
+    }
+    
+    .preview-section {
+        background: #333;
+    }
+}
+
+/* Persian text direction fixes */
+[dir="rtl"] .back-button {
+    right: auto;
+    left: 20px;
+}
+
+[dir="rtl"] .form-group input[required]:valid::after {
+    right: auto;
+    left: 15px;
+}
+
+/* File type indicators */
+.file-type-image .upload-icon {
+    color: #28a745;
+}
+
+.file-type-video .upload-icon {
+    color: #dc3545;
+}
+
+.file-type-gif .upload-icon {
+    color: #ffc107;
+}
+
+/* Drag and drop states */
+.upload-area.drag-enter {
+    border-color: #007bff;
+    background: #e3f2fd;
+    transform: scale(1.02);
+}
+
+.upload-area.drag-leave {
+    border-color: #007bff;
+    background: white;
+    transform: scale(1);
+}
+
+/* Success state */
+.upload-success .upload-area {
+    border-color: #28a745;
+    background: #d4edda;
+}
+
+.upload-success .upload-icon {
+    color: #28a745;
+}
+
+/* Error state */
+.upload-error .upload-area {
+    border-color: #dc3545;
+    background: #f8d7da;
+}
+
+.upload-error .upload-icon {
+    color: #dc3545;
+}
+
+/* Tooltip styles */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.9rem;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #007bff;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #0056b3;
+} 

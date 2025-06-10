@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  avatar-service:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    runtime: nvidia
+    shm_size: 2gb
+    deploy:
+      resources:
+        limits:
+          memory: 32gb
+          cpus: '16'
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    ports:
+      - "5002:5002"
+    volumes:
+      # Read-only model access
+      - ../assets/models:/app/assets/models:ro
+      # Read-only avatar access
+      - ../assets/avatars:/app/assets/avatars:ro
+      # Avatar database persistence
+      - ../data/avatar_registry:/app/data/avatar_registry:rw
+      # Registered avatars storage
+      - ../assets/avatars/registered:/app/assets/avatars/registered:rw
+      # Log persistence
+      - ../logs:/app/logs:rw
+      # Temporary files
+      - ../temp:/app/temp:rw
+    environment:
+      # Model and avatar loading configuration
+      - PRELOAD_MODELS=true
+      - PRELOAD_AVATARS=true
+      - AVATAR_CACHE_WARMUP=true
+      
+      # GPU memory management
+      - GPU_MEMORY_LIMIT=20GB
+      - MODEL_CACHE_SIZE=4GB
+      - AVATAR_CACHE_SIZE=2GB
+      - MAX_REGISTERED_AVATARS=100
+      
+      # CUDA configuration
+      - CUDA_VISIBLE_DEVICES=0
+      - ONNX_DISABLE_GLOBAL_THREAD_POOL=1
+      - OMP_NUM_THREADS=8
+      
+      # Service configuration
+      - UVICORN_HOST=0.0.0.0
+      - UVICORN_PORT=5002
+      - UVICORN_WORKERS=1
+      - LOG_LEVEL=INFO
+      
+      # OpenAI API (replace with your key)
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      
+      # MCP server configuration
+      - MCP_SERVER_URL=http://5.9.72.171:8007/mcp
+      
+      # Performance settings
+      - MAX_CONCURRENT_USERS=3
+      - CHUNK_BUFFER_SIZE=5
+      - PROCESSING_TIMEOUT=30
+      
+      # Avatar configuration
+      - AVATAR_STORAGE_PATH=/app/assets/avatars/registered
+      - CACHE_STORAGE_PATH=/app/data/avatar_registry/face_cache
+      - FACE_DETECTION_THRESHOLD=0.5
+      - CACHE_COMPRESSION=true
+      - AUTO_CLEANUP_DAYS=30
+    
+    healthcheck:
+      test: ["CMD", "python", "/app/scripts/health_check.py", "--check-models", "--check-avatars"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    
+    restart: unless-stopped
+    
+    networks:
+      - avatar-network
+
+networks:
+  avatar-network:
+    driver: bridge
+    
+volumes:
+  avatar_models:
+    driver: local
+  avatar_data:
+    driver: local
+  avatar_logs:
+    driver: local 

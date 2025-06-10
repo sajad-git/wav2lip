@@ -1,0 +1,508 @@
+/*
+Persian Language Support CSS
+RTL layout, typography, and Persian-specific styling
+*/
+
+/* Persian font imports */
+@import url('https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shabnam:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Samim:wght@300;400;500;600;700&display=swap');
+
+/* Persian font variables */
+:root {
+    --font-persian-primary: 'Vazir', 'Tahoma', sans-serif;
+    --font-persian-secondary: 'Shabnam', 'Arial', sans-serif;
+    --font-persian-mono: 'Samim', 'Courier New', monospace;
+    
+    /* Persian typography settings */
+    --line-height-persian: 1.8;
+    --letter-spacing-persian: 0.02em;
+    --word-spacing-persian: 0.1em;
+}
+
+/* RTL base styles */
+[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+}
+
+[dir="rtl"] body {
+    font-family: var(--font-persian-primary);
+    line-height: var(--line-height-persian);
+    letter-spacing: var(--letter-spacing-persian);
+    word-spacing: var(--word-spacing-persian);
+}
+
+/* Persian text class for mixed content */
+.text-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    line-height: var(--line-height-persian);
+    letter-spacing: var(--letter-spacing-persian);
+    word-spacing: var(--word-spacing-persian);
+}
+
+.text-persian-secondary {
+    font-family: var(--font-persian-secondary);
+}
+
+.text-persian-mono {
+    font-family: var(--font-persian-mono);
+}
+
+/* RTL layout adjustments */
+[dir="rtl"] .container {
+    padding-left: var(--spacing-lg);
+    padding-right: var(--spacing-lg);
+}
+
+[dir="rtl"] .flex {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex-col {
+    flex-direction: column;
+}
+
+[dir="rtl"] .justify-between {
+    flex-direction: row-reverse;
+}
+
+/* Grid adjustments for RTL */
+[dir="rtl"] .grid {
+    direction: rtl;
+}
+
+[dir="rtl"] .grid > * {
+    direction: ltr; /* Reset direction for grid items */
+}
+
+[dir="rtl"] .grid .text-persian {
+    direction: rtl; /* Restore RTL for Persian text */
+}
+
+/* Button RTL adjustments */
+[dir="rtl"] .btn {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .btn .spinner {
+    margin-left: var(--spacing-xs);
+    margin-right: 0;
+}
+
+/* Form RTL adjustments */
+[dir="rtl"] .form-label {
+    text-align: right;
+}
+
+[dir="rtl"] .form-input,
+[dir="rtl"] .form-textarea,
+[dir="rtl"] .form-select {
+    text-align: right;
+    direction: rtl;
+}
+
+[dir="rtl"] .form-input::placeholder,
+[dir="rtl"] .form-textarea::placeholder {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Persian placeholder text */
+.form-input-persian::placeholder,
+.form-textarea-persian::placeholder {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    opacity: 0.6;
+}
+
+/* Card RTL adjustments */
+[dir="rtl"] .card-header {
+    text-align: right;
+}
+
+[dir="rtl"] .card-title {
+    text-align: right;
+}
+
+[dir="rtl"] .card-description {
+    text-align: right;
+}
+
+/* Modal RTL adjustments */
+[dir="rtl"] .modal-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .modal-title {
+    text-align: right;
+}
+
+[dir="rtl"] .modal-footer {
+    flex-direction: row-reverse;
+}
+
+/* Toast RTL adjustments */
+[dir="rtl"] .toast-container {
+    left: var(--spacing-lg);
+    right: auto;
+}
+
+[dir="rtl"] .toast {
+    transform: translateX(-100%);
+    text-align: right;
+}
+
+[dir="rtl"] .toast.show {
+    transform: translateX(0);
+}
+
+[dir="rtl"] .toast-header {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .toast-success {
+    border-right: 4px solid var(--success-color);
+    border-left: 1px solid var(--border-color);
+}
+
+[dir="rtl"] .toast-warning {
+    border-right: 4px solid var(--warning-color);
+    border-left: 1px solid var(--border-color);
+}
+
+[dir="rtl"] .toast-error {
+    border-right: 4px solid var(--error-color);
+    border-left: 1px solid var(--border-color);
+}
+
+[dir="rtl"] .toast-info {
+    border-right: 4px solid var(--accent-color);
+    border-left: 1px solid var(--border-color);
+}
+
+/* Status indicator RTL */
+[dir="rtl"] .status {
+    flex-direction: row-reverse;
+}
+
+/* Progress bar RTL */
+[dir="rtl"] .progress {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .progress-bar {
+    transform: scaleX(-1);
+}
+
+/* Persian number formatting */
+.number-persian {
+    font-family: var(--font-persian-mono);
+    direction: ltr;
+    unicode-bidi: embed;
+}
+
+/* Persian date and time */
+.datetime-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+}
+
+/* Utility classes for RTL */
+.text-right-rtl {
+    text-align: right;
+    direction: rtl;
+}
+
+.text-left-rtl {
+    text-align: left;
+    direction: ltr;
+}
+
+.float-right-rtl {
+    float: right;
+}
+
+.float-left-rtl {
+    float: left;
+}
+
+.mr-rtl-xs { margin-right: var(--spacing-xs); }
+.mr-rtl-sm { margin-right: var(--spacing-sm); }
+.mr-rtl-md { margin-right: var(--spacing-md); }
+.mr-rtl-lg { margin-right: var(--spacing-lg); }
+.mr-rtl-xl { margin-right: var(--spacing-xl); }
+
+.ml-rtl-xs { margin-left: var(--spacing-xs); }
+.ml-rtl-sm { margin-left: var(--spacing-sm); }
+.ml-rtl-md { margin-left: var(--spacing-md); }
+.ml-rtl-lg { margin-left: var(--spacing-lg); }
+.ml-rtl-xl { margin-left: var(--spacing-xl); }
+
+.pr-rtl-xs { padding-right: var(--spacing-xs); }
+.pr-rtl-sm { padding-right: var(--spacing-sm); }
+.pr-rtl-md { padding-right: var(--spacing-md); }
+.pr-rtl-lg { padding-right: var(--spacing-lg); }
+.pr-rtl-xl { padding-right: var(--spacing-xl); }
+
+.pl-rtl-xs { padding-left: var(--spacing-xs); }
+.pl-rtl-sm { padding-left: var(--spacing-sm); }
+.pl-rtl-md { padding-left: var(--spacing-md); }
+.pl-rtl-lg { padding-left: var(--spacing-lg); }
+.pl-rtl-xl { padding-left: var(--spacing-xl); }
+
+/* Avatar-specific Persian styles */
+.avatar-selector-persian {
+    direction: rtl;
+    text-align: right;
+}
+
+.avatar-selector-persian .avatar-item {
+    text-align: center; /* Keep avatar items centered */
+}
+
+.avatar-selector-persian .avatar-name {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    margin-top: var(--spacing-sm);
+}
+
+/* Audio controls Persian styles */
+.audio-controls-persian {
+    direction: rtl;
+}
+
+.audio-controls-persian .btn {
+    flex-direction: row-reverse;
+}
+
+.audio-controls-persian .btn-record {
+    margin-left: var(--spacing-md);
+    margin-right: 0;
+}
+
+/* Video player Persian styles */
+.video-player-persian {
+    direction: ltr; /* Video always LTR */
+}
+
+.video-player-persian .controls {
+    direction: rtl;
+}
+
+.video-player-persian .controls .btn {
+    flex-direction: row-reverse;
+}
+
+/* Text input Persian styles */
+.text-input-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    line-height: var(--line-height-persian);
+}
+
+.text-input-persian::placeholder {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    opacity: 0.6;
+}
+
+/* Status messages Persian */
+.status-message-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+}
+
+.error-message-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    color: var(--error-color);
+}
+
+.success-message-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+    color: var(--success-color);
+}
+
+/* Loading states Persian */
+.loading-text-persian {
+    font-family: var(--font-persian-primary);
+    direction: rtl;
+    text-align: right;
+}
+
+.loading-persian .spinner {
+    margin-left: var(--spacing-sm);
+    margin-right: 0;
+}
+
+/* Navigation Persian styles */
+.nav-persian {
+    direction: rtl;
+}
+
+.nav-persian .nav-item {
+    margin-left: var(--spacing-md);
+    margin-right: 0;
+}
+
+.nav-persian .nav-item:first-child {
+    margin-left: 0;
+}
+
+.nav-persian .nav-item:last-child {
+    margin-right: var(--spacing-md);
+}
+
+/* Breadcrumb Persian styles */
+.breadcrumb-persian {
+    direction: rtl;
+    flex-direction: row-reverse;
+}
+
+.breadcrumb-persian .breadcrumb-item {
+    margin-left: var(--spacing-sm);
+    margin-right: 0;
+}
+
+.breadcrumb-persian .breadcrumb-separator {
+    transform: scaleX(-1);
+}
+
+/* Table Persian styles */
+.table-persian {
+    direction: rtl;
+}
+
+.table-persian th,
+.table-persian td {
+    text-align: right;
+}
+
+.table-persian th:first-child,
+.table-persian td:first-child {
+    border-left: none;
+    border-right: 1px solid var(--border-color);
+}
+
+.table-persian th:last-child,
+.table-persian td:last-child {
+    border-right: none;
+    border-left: 1px solid var(--border-color);
+}
+
+/* Responsive Persian adjustments */
+@media (max-width: 768px) {
+    [dir="rtl"] .toast-container {
+        left: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+    
+    .nav-persian {
+        flex-direction: column;
+    }
+    
+    .nav-persian .nav-item {
+        margin: var(--spacing-xs) 0;
+    }
+    
+    .breadcrumb-persian {
+        flex-wrap: wrap;
+    }
+    
+    /* Mobile text input adjustments */
+    .text-input-persian {
+        font-size: var(--font-size-lg); /* Larger on mobile for better readability */
+    }
+}
+
+/* Print styles for Persian */
+@media print {
+    [dir="rtl"] body {
+        font-family: 'Times New Roman', serif;
+        direction: rtl;
+        text-align: right;
+    }
+    
+    .text-persian {
+        font-family: 'Times New Roman', serif;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .text-persian {
+        font-weight: 500;
+        letter-spacing: 0.03em;
+    }
+    
+    [dir="rtl"] .form-input,
+    [dir="rtl"] .form-textarea {
+        border-width: 2px;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    [dir="rtl"] .toast {
+        transform: none;
+        transition: opacity var(--transition-normal);
+    }
+    
+    [dir="rtl"] .toast.show {
+        opacity: 1;
+    }
+}
+
+/* Dark theme Persian adjustments */
+[data-theme="dark"][dir="rtl"] .form-input,
+[data-theme="dark"][dir="rtl"] .form-textarea,
+[data-theme="dark"][dir="rtl"] .form-select {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .text-persian {
+    color: var(--text-primary);
+}
+
+/* Persian keyboard support indicators */
+.keyboard-persian-active {
+    position: relative;
+}
+
+.keyboard-persian-active::after {
+    content: 'فا';
+    position: absolute;
+    top: -8px;
+    right: 8px;
+    font-size: var(--font-size-xs);
+    background-color: var(--accent-color);
+    color: var(--text-inverse);
+    padding: 2px 4px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-persian-primary);
+}
+
+/* Persian text selection */
+::selection {
+    background-color: rgba(37, 99, 235, 0.2);
+    color: var(--text-primary);
+}
+
+.text-persian::selection {
+    background-color: rgba(37, 99, 235, 0.3);
+    color: var(--text-primary);
+} 

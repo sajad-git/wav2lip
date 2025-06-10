@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  avatar-service-dev:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    ports:
+      - "5002:5002"
+      - "8000:8000"  # Debug port
+    environment:
+      - ENVIRONMENT=development
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+      - PRELOAD_MODELS=false  # Faster startup for dev
+      - GPU_MEMORY_LIMIT=16GB
+      - MODEL_CACHE_SIZE=2GB
+      - PRELOAD_AVATARS=false
+      - AVATAR_CACHE_WARMUP=false
+      - MAX_REGISTERED_AVATARS=50
+      - AVATAR_CACHE_SIZE=1GB
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MCP_BASE_URL=${MCP_BASE_URL}
+      - WHISPER_MODEL=base
+      - TTS_VOICE=alloy
+      - REDIS_URL=redis://redis-dev:6379
+    volumes:
+      # Live code reloading
+      - ../app:/app/app:rw
+      - ../static:/app/static:rw
+      - ../assets:/app/assets:rw
+      - ../data:/app/data:rw
+      - ../logs:/app/logs:rw
+      - ../scripts:/app/scripts:rw
+      - ../tests:/app/tests:rw
+      # Model persistence
+      - avatar_models_dev:/app/assets/models
+      - avatar_registry_dev:/app/data/avatar_registry
+    runtime: nvidia
+    shm_size: '1gb'
+    mem_limit: 16gb
+    cpus: 8
+    healthcheck:
+      test: ["CMD", "python", "/app/scripts/health_check.py", "--dev-mode"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    depends_on:
+      - redis-dev
+    networks:
+      - avatar-dev-network
+
+  redis-dev:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - avatar-dev-network
+
+  # Development database for testing
+  postgres-dev:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=avatar_dev
+      - POSTGRES_USER=avatar_user
+      - POSTGRES_PASSWORD=dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - avatar-dev-network
+
+volumes:
+  avatar_models_dev:
+  avatar_registry_dev:
+  redis_dev_data:
+  postgres_dev_data:
+
+networks:
+  avatar-dev-network:
+    driver: bridge 
