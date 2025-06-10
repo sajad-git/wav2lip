@@ -119,16 +119,15 @@ temp/
 Temp/
 wav2lip-onnx-main/Temp/
 
-# Data
+# Data - specific cache directories
 data/avatar_registry/face_cache/
-assets/avatars/registered/
 
 # Database files
 *.db
 *.sqlite
 *.sqlite3
 
-# Model files
+# Model files - LARGE FILES TO IGNORE
 # User specifically requested .onnx
 *.onnx
 *.onnx.data
@@ -157,7 +156,7 @@ checkpoints/
 # Entire wav2lip-onnx-main directory (contains large model files)
 wav2lip-onnx-main/
 
-# Audio/Video files (can be large)
+# Audio/Video files (can be large) - only if they're actual media files
 *.wav
 *.mp3
 *.mp4
@@ -171,9 +170,16 @@ wav2lip-onnx-main/
 *.ogg
 *.flac
 
-# Audio test samples and patterns
-assets/audio/test_samples/
-assets/audio/silence_patterns/
+# Large image files - only actual image files, not placeholder/sample images
+# Allow small placeholder images but ignore large media
+assets/avatars/registered/*.jpg
+assets/avatars/registered/*.png
+assets/avatars/registered/*.gif
+
+# Audio test samples if they contain actual large audio files
+assets/audio/test_samples/*.wav
+assets/audio/test_samples/*.mp3
+assets/audio/test_samples/*.m4a
 
 # Large data files
 *.zip
@@ -181,16 +187,6 @@ assets/audio/silence_patterns/
 *.tar.gz
 *.rar
 *.7z
-
-# Image files (can be large)
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.bmp
-*.tiff
-*.tif
-*.webp
 
 # OS generated files
 .DS_Store

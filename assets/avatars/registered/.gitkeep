@@ -1,0 +1,6 @@
+# This directory will contain user-registered avatars
+# Each avatar will have its own subdirectory with:
+# - original.{ext} (original file)
+# - processed_face.jpg (processed face image)
+# - metadata.json (avatar metadata)
+# - face_cache.pkl (cached face detection data) 
