@@ -65,5 +65,4 @@ aioredis==2.0.1
 
 # Compression and serialization
 lz4==4.3.2
-pickle5==0.0.12
 msgpack==1.0.7 
